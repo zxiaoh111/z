@@ -1,0 +1,289 @@
+<footer>   
+    <div class="container_12">
+      
+      <div class="grid_12">
+      <div class="socials">
+      <section id="facebook">
+        <a href="#" target="_blank"><span id="fackbook" class="tooltip" title="Link us on Facebook">f</span></a>
+        </section>
+        <section id="twitter">
+        <a href="#" target="_blank"><span id="twitter-default" class="tooltip" title="Follow us on Twitter">t</span></a>
+        </section>      
+        <section id="google">
+        <a href="#" target="_blank"><span id="google-default" class="tooltip" title="Follow us on Google Plus">g<span>+</span></span></a>
+        </section>        
+        <section id="rss">
+        <a href="#" target="_blank"><span id="rss-default" class="tooltip" title="Follow us on Dribble">d</span></a>
+        </section>      
+        </div>
+        <div class="copy">
+        YourHome &copy; 2014  |  <a href="#">Privacy Policy</a> <br> More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a>
+        </div>
+         
+      </div>
+    </div>  
+</footer>
+<?php
+  error_reporting(0);
+  include("conn.php");
+  session_start();
+  $wz_id=$_GET['wz_id'];
+  
+  $sql="select * from ty_wz where wz_id=".$wz_id;
+
+  $query=mysql_query($sql);
+  $rs=mysql_fetch_array($query);
+
+  
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+     <head>
+     <title>Blog</title>
+     <meta charset="utf-8">
+     <meta name = "format-detection" content = "telephone=no" />
+     <link rel="icon" href="images/favicon.ico">
+     <link rel="shortcut icon" href="images/favicon.ico" />
+  <link rel="stylesheet" type="text/css" href="css/tooltipster.css" />
+     <link rel="stylesheet" href="css/style.css">
+     <script src="js/jquery.js"></script>
+     <script src="js/jquery-migrate-1.2.1.js"></script>
+     <script src="js/script.js"></script> 
+     <script src="js/superfish.js"></script>
+     <script src="js/jquery.ui.totop.js"></script>
+     <script src="js/jquery.equalheights.js"></script>
+     <script src="js/jquery.mobilemenu.js"></script>
+     <script src="js/jquery.easing.1.3.js"></script>
+      <script src="js/jquery.tooltipster.js"></script>
+     <script>
+       $(document).ready(function(){
+        $().UItoTop({ easingType: 'easeOutQuart' });
+        $('.tooltip').tooltipster();
+        });
+     </script>
+
+     <!--[if lt IE 9]>
+       <div style=' clear: both; text-align:center; position: relative;'>
+         <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+           <img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." />
+         </a>
+      </div>
+      <script src="js/html5shiv.js"></script>
+      <link rel="stylesheet" media="screen" href="css/ie.css">
+
+
+    <![endif]-->
+     </head>
+     
+     <body class="" id="top">
+     
+<!--==============================header=================================--> 
+<?php
+
+   include("header.php");
+?>
+<!--==============================Content=================================-->
+<div class="content"><div class="ic">More Website Templates @ TemplateMonster.com - March 10, 2014!</div>
+  <div class="container_12">
+    <div class="grid_9">
+      <h2>Blog</h2>
+      <div class="blog">
+        <img src="images/page4_img1.jpg" alt="" class="img_inner fleft">
+        <div class="extra_wrapper">
+          <div class="text1"><a href="#"><?php echo $rs['wz_title']?></a></div>
+          <div class="text1"><a href="#"><?php echo date('Y-m-d',$rs['wz_time'])?></a></div><?php echo $rs['wz_content']?>
+          
+        </div>
+        <div class="clear"></div>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="grid_3">
+      
+    </div>
+  </div>
+</div>
+<!--==============================footer=================================-->
+<?php
+    include("footer.php");
+ 
+?>
+</body>
+</html>
+<?php
+   //第一步：链接数据库
+    $conn=@mysql_connect("localhost:3306","root","root")or die ("mysql链接失败");
+  //第二步: 选择指定的数据库，设置字符集
+    @mysql_select_db("shengxian2015",$conn) or die ("db链接失败".mysql_error());
+  mysql_query('SET NAMES UTF8')or die ("字符集设置错误");
+
+?>
+<?php
+ error_reporting(0);
+ include("conn.php");
+  session_start();
+
+ if($_SERVER['REQUEST_METHOD'] == 'POST'){
+
+    if ((($_FILES["file"]["type"] == "image/gif")
+|| ($_FILES["file"]["type"] == "image/jpeg")
+|| ($_FILES["file"]["type"] == "image/pjpeg"))
+|| ($_FILES["file"]["size"] < 2000000))
+  {
+  if ($_FILES["file"]["error"] > 0)
+    {
+    //echo "Return Code: " . $_FILES["file"]["error"] . "<br />";
+    }
+  else
+    {
+   //echo "Upload: " . $_FILES["file"]["name"] . "<br />";
+    //echo "Type: " . $_FILES["file"]["type"] . "<br />";
+    //echo "Size: " . ($_FILES["file"]["size"] / 1024) . " Kb<br />";
+    //echo "Temp file: " . $_FILES["file"]["tmp_name"] . "<br />";
+
+    if (file_exists("upload/" . $_FILES["file"]["name"]))
+      {
+      //echo $_FILES["file"]["name"] . " already exists. ";
+      }
+    else
+      {
+      move_uploaded_file($_FILES["file"]["tmp_name"],
+      "upload/" . $_FILES["file"]["name"]);
+      //echo "Stored in: " . "upload/" . $_FILES["file"]["name"];
+      }
+    }
+  }
+else
+  {
+  //echo "Invalid file";
+  }
+
+  $wz_title=$_POST['wz_title'];
+  $wz_content=$_POST['content'];
+  $wz_gjc=$_POST['wz_gjc'];
+  $wz_photo=$_FILES["file"]["name"];
+  $wz_time=time();
+  $wz_userid=$_SESSION['uname'];
+  $sql="insert into ty_wz(wz_title,wz_content,wz_gjc,wz_photo,wz_time,wz_userid) values('$wz_title','$wz_content','$wz_gjc','$wz_photo','$wz_time','$wz_userid')";
+  $query=mysql_query($sql);
+  echo "<script>alert('发布成功!');location.href='index.php';</script>";
+ }  
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+     <head>
+     <title>Contacts</title>
+     <meta charset="utf-8">
+     <meta name = "format-detection" content = "telephone=no" />
+     <link rel="icon" href="images/favicon.ico">
+     <link rel="shortcut icon" href="images/favicon.ico" />
+     <link rel="stylesheet" href="css/form.css">
+  <link rel="stylesheet" type="text/css" href="css/tooltipster.css" />
+     <link rel="stylesheet" href="css/style.css">
+     <script src="js/jquery.js"></script>
+     <script src="js/jquery-migrate-1.2.1.js"></script>
+     <script src="js/script.js"></script> 
+     <script src="js/superfish.js"></script>
+     <script src="js/TMForm.js"></script>
+     <script src="js/jquery.ui.totop.js"></script>
+     <script src="js/jquery.equalheights.js"></script>
+     <script src="js/jquery.mobilemenu.js"></script>
+     <script src="js/jquery.easing.1.3.js"></script>
+      <script src="js/jquery.tooltipster.js"></script>
+ <script type="text/javascript" charset="utf-8" src="ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="ueditor/ueditor.all.min.js"> </script>
+     <script>
+       $(document).ready(function(){
+        $().UItoTop({ easingType: 'easeOutQuart' });
+        $('.tooltip').tooltipster();
+        });
+     </script>
+
+    <!--[if lt IE 9]>
+       <div style=' clear: both; text-align:center; position: relative;'>
+         <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+           <img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." />
+         </a>
+      </div>
+      <script src="js/html5shiv.js"></script>
+      <link rel="stylesheet" media="screen" href="css/ie.css">
+
+
+    <![endif]-->
+     </head>
+     
+     <body class="" id="top">
+     
+<!--==============================header=================================--> 
+<?php
+include("header.php");
+?>
+<!--==============================Content=================================-->
+<div class="content"><div class="ic">More Website Templates @ TemplateMonster.com - March 10, 2014!</div>
+  <div class="container_12">
+    <div class="grid_12">
+      <h2>Contacts</h2>
+            <div class="map"></div>
+    </div>  
+    <div class="clear"></div>
+    <div class="grid_3">
+      <h3 class="head1"></h3>
+     
+    </div>
+    <div class="grid_9">
+      <h3 class="head1">告诉我你想去哪里</h3>
+            <form action="addwz.php" method="post" enctype="multipart/form-data">
+                            
+                      <div class="success_wrapper">
+                      <div class="success-message">你想去哪？</div>
+                      </div>
+                      <label class="name">
+                      <input type="text" placeholder="输入关键词" name="wz_gjc"/>
+                      </label>
+                      <label class="name">
+                      <input type="text" placeholder="输入标题" name="wz_title"/>
+                      </label>
+                      
+
+                      <label class="name">
+                      <input type="file" name="file"/>上传一张封面
+                      </label>
+
+                       <label class="name">
+                      <textarea name="content" id="editor" style="height:500px;" ></textarea>
+                      </label>
+
+
+                      <div>
+                      <div class="clear"></div>
+                      <div class="btns">
+                      <button type="submit" class="btn">发布</button>
+                      </div>
+                      </div>
+                      </form>   
+    </div>
+  </div>
+</div>
+<!--==============================footer=================================-->
+<?php
+include("footer.php");
+?>
+</body>
+<script type="text/javascript">
+    var editor=UE.getEditor('editor',{
+        initialFrameWidth : 590,
+        initialFrameHeight: 100,
+        zIndex:1,
+
+        toolbars: [
+          ['fullscreen', 'source', 'undo', 'redo','simpleupload'],
+            ['bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc']
+        ]
+    });
+
+</script>
+</html>
